@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using UrlsAndRoutes.Infrastructure;
 
 namespace UrlsAndRoutes
 {
@@ -37,10 +38,26 @@ namespace UrlsAndRoutes
             //    new { controller = "Home", action = "Index", id = UrlParameter.Optional });
 
             // If a matching controller cannot be found, then the framework will not search elsewhere.
-            Route myRoute = routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //Route myRoute = routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
+            //    new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //    new[] { "URLsAndRoutes.AdditionalControllers" });
+            //myRoute.DataTokens["UseNamespaceFallback"] = false;
+
+            // Constrain a route using a regular expression
+            //routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
+            //    new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //    new { controller = "^H.*", action = "Index|About", httpMethod = new HttpMethodConstraint("GET", "POST") },
+            //    new[] { "URLsAndRoutes.Controllers" });
+
+            // Apply a custom constraint in a route
+            routes.MapRoute("ChromeRoute", "{*catchall}",
+                new { controller = "Home", action = "Index" },
+                new { customConstraint = new UserAgentConstraint("Chrome") },
                 new[] { "URLsAndRoutes.AdditionalControllers" });
-            myRoute.DataTokens["UseNamespaceFallback"] = false;
+
+            routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new[] { "URLsAndRoutes.Controllers" });
         }
     }
 }

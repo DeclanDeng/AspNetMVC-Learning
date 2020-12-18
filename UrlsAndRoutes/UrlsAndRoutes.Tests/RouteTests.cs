@@ -84,15 +84,27 @@ namespace UrlsAndRoutes.Tests
             //TestRouteMatch("~/Customer", "Customer", "Index", new { id = "DefaultId" });
             //TestRouteMatch("~/Customer/List", "Customer", "List", new { id = "DefaultId" });
             //TestRouteMatch("~/Customer/List/All", "Customer", "List", new { id = "All" });
+            //TestRouteMatch("~/", "Home", "Index");
+            //TestRouteMatch("~/Customer", "Customer", "Index");
+            //TestRouteMatch("~/Customer/List", "Customer", "List");
+            //TestRouteMatch("~/Customer/List/All", "Customer", "List", new { id = "All" });
+            ////TestRouteFail("~/Customer/List/All/Delete");
+            //TestRouteMatch("~/Customer/List/All/Delete", "Customer", "List", 
+            //    new { id = "All", catchall = "Delete" });
+            //TestRouteMatch("~/Customer/List/All/Delete/Perm", "Customer", "List", 
+            //    new { id = "All", catchall = "Delete/Perm" });
+
+            // Test: Route constraints
             TestRouteMatch("~/", "Home", "Index");
-            TestRouteMatch("~/Customer", "Customer", "Index");
-            TestRouteMatch("~/Customer/List", "Customer", "List");
-            TestRouteMatch("~/Customer/List/All", "Customer", "List", new { id = "All" });
-            //TestRouteFail("~/Customer/List/All/Delete");
-            TestRouteMatch("~/Customer/List/All/Delete", "Customer", "List", 
-                new { id = "All", catchall = "Delete" });
-            TestRouteMatch("~/Customer/List/All/Delete/Perm", "Customer", "List", 
-                new { id = "All", catchall = "Delete/Perm" });
+            TestRouteMatch("~/Home", "Home", "Index");
+            TestRouteMatch("~/Home/Index", "Home", "Index");
+
+            TestRouteMatch("~/Home/Index/MyId", "Home", "Index", new { id = "MyId" });
+            TestRouteMatch("~/Home/Index/MyId/More/Segments", "Home", "Index", new { id = "MyId", catchall = "More/Segments" });
+
+            TestRouteFail("~/Home/OtherAction");
+            TestRouteFail("~/Account/Index");
+            TestRouteFail("~/Account/About");
         }
     }
 }
