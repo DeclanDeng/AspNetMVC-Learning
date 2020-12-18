@@ -80,14 +80,11 @@ namespace UrlsAndRoutes.Tests
         [TestMethod]
         public void TestIncomingRoutes()
         {
-            // check for the URL that we hope to receive
-            TestRouteMatch("~/Admin/Index", "Admin", "Index");
-            // check that the values are being obtained from the segments
-            TestRouteMatch("~/One/Two", "One", "Two");
-
-            // ensure that toot many or too few segments fails to match
-            TestRouteFail("~/Admin/Index/Segment");
-            TestRouteFail("~/Admin");
+            TestRouteMatch("~/", "Home", "Index", new { id = "DefaultId" });
+            TestRouteMatch("~/Customer", "Customer", "Index", new { id = "DefaultId" });
+            TestRouteMatch("~/Customer/List", "Customer", "List", new { id = "DefaultId" });
+            TestRouteMatch("~/Customer/List/All", "Customer", "List", new { id = "All" });
+            TestRouteFail("~/Customer/List/All/Delete");
         }
     }
 }
