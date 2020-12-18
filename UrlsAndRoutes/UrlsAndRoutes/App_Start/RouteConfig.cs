@@ -30,7 +30,17 @@ namespace UrlsAndRoutes
 
             //routes.MapRoute("", "Public/{controller}/{action}", new { controller = "Home", action = "Index" });
 
-            routes.MapRoute("MyRoute", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = "DefaultId" });
+            //routes.MapRoute("MyRoute", "{controller}/{action}/{id}", 
+            //    new { controller = "Home", action = "Index", id = "DefaultId" });
+
+            //routes.MapRoute("MyRoute", "{controller}/{action}/{id}",
+            //    new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+
+            // If a matching controller cannot be found, then the framework will not search elsewhere.
+            Route myRoute = routes.MapRoute("MyRoute", "{controller}/{action}/{id}/{*catchall}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new[] { "URLsAndRoutes.AdditionalControllers" });
+            myRoute.DataTokens["UseNamespaceFallback"] = false;
         }
     }
 }
