@@ -49,6 +49,13 @@ namespace UrlsAndRoutes
             //    new { controller = "^H.*", action = "Index|About", httpMethod = new HttpMethodConstraint("GET", "POST") },
             //    new[] { "URLsAndRoutes.Controllers" });
 
+            routes.RouteExistingFiles = true;
+
+            routes.IgnoreRoute("Content/{filename}.html");
+
+            routes.MapRoute("DiskFile", "Content/StaticContent.html",
+                new { controller = "Customer", action = "List" });
+
             // Apply a custom constraint in a route
             routes.MapRoute("ChromeRoute", "{*catchall}",
                 new { controller = "Home", action = "Index" },
