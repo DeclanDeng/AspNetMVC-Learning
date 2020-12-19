@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Reflection;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace UrlsAndRoutes.Tests
@@ -95,16 +96,31 @@ namespace UrlsAndRoutes.Tests
             //    new { id = "All", catchall = "Delete/Perm" });
 
             // Test: Route constraints
-            TestRouteMatch("~/", "Home", "Index");
-            TestRouteMatch("~/Home", "Home", "Index");
-            TestRouteMatch("~/Home/Index", "Home", "Index");
+            //TestRouteMatch("~/", "Home", "Index");
+            //TestRouteMatch("~/Home", "Home", "Index");
+            //TestRouteMatch("~/Home/Index", "Home", "Index");
 
-            TestRouteMatch("~/Home/Index/MyId", "Home", "Index", new { id = "MyId" });
-            TestRouteMatch("~/Home/Index/MyId/More/Segments", "Home", "Index", new { id = "MyId", catchall = "More/Segments" });
+            //TestRouteMatch("~/Home/Index/MyId", "Home", "Index", new { id = "MyId" });
+            //TestRouteMatch("~/Home/Index/MyId/More/Segments", "Home", "Index", new { id = "MyId", catchall = "More/Segments" });
 
-            TestRouteFail("~/Home/OtherAction");
-            TestRouteFail("~/Account/Index");
-            TestRouteFail("~/Account/About");
+            //TestRouteFail("~/Home/OtherAction");
+            //TestRouteFail("~/Account/Index");
+            //TestRouteFail("~/Account/About");
+        }
+        
+        [TestMethod]
+        public void TestOutgoingRoutes()
+        {
+            // Arrange
+            RouteCollection routes = new RouteCollection();
+            RouteConfig.RegisterRoutes(routes);
+            RequestContext context = new RequestContext(CreateHttpContext(), new RouteData());
+
+            // Act - generate the URL
+            string result = UrlHelper.GenerateUrl(null, "Index", "Home", null, routes, context, true);
+
+            // Assert
+            Assert.AreEqual("/App/DoIndex", result);
         }
     }
 }
