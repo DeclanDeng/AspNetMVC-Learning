@@ -1,3 +1,4 @@
+using ControllerExtensibility.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace ControllerExtensibility
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            ControllerBuilder.Current.SetControllerFactory(new CustomControllerFactory());
         }
     }
 }
